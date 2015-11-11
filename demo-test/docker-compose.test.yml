@@ -1,0 +1,9 @@
+
+test:
+        image: demo-test
+        links:
+                - loadbalancer:target
+        volumes:
+                - ${PWD}/demo-test/test:/test:ro
+                - ${PWD}/demo-test/result:/result
+

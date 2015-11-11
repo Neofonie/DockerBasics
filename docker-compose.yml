@@ -1,15 +1,15 @@
 
-ServerA:
+serverA:
         image: demo-server
 
-ServerB:
+serverB:
         image: demo-server
 
-LoadBalancer:
+loadbalancer:
         image: demo-loadbalancer
         links:
-                - ServerA:app1
-                - ServerB:app2
+                - serverA:app1
+                - serverB:app2
         ports:
                 - 8080:8080
 
