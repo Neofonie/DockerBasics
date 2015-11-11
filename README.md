@@ -1,1 +1,3 @@
-# DockerBasics
+# DockerBascis
+Reference files for workshops.
+
