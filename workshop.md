@@ -6,9 +6,9 @@
 ## Installationen
 
 1. Docker-Engine: 
-    Linux https://docs.docker.com/engine/installation/linux/
-    Mac   https://docs.docker.com/engine/installation/mac/
+    Linux https://docs.docker.com/engine/installation/linux/<br/>
+    Mac   https://docs.docker.com/engine/installation/mac/<br/>
     
 2. Docker-Compose:
-    Linux   
+    Linux<br/>
     & Mac https://docs.docker.com/compose/install/
