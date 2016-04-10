@@ -1,0 +1,11 @@
+version: '2'
+services:
+    web:
+        image: demo-server
+
+    loadbalancer:
+        image: demo-auto-lb
+        links:
+            - web
+        ports:
+            - 42080:8080

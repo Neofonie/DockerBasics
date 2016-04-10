@@ -4,15 +4,11 @@ services:
         container_name: web01
         build: demo-server
         image: demo-server
-        networks: 
-            - default
 
     web02:
         container_name: web02
         build: demo-server
         image: demo-server
-        networks: 
-            - default
 
     loadbalancer:
         container_name: loadbalancer
@@ -23,6 +19,3 @@ services:
         - web02:backend02
         ports:
         - 42080:8080
-        networks: 
-            - default
-
