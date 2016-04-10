@@ -1,4 +1,4 @@
-FROM debian
+FROM ubuntu:latest
 
 RUN	apt-get update &&\
 	apt-get install -qy vim curl &&\
