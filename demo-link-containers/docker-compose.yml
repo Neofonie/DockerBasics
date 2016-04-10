@@ -2,18 +2,15 @@ version: '2'
 services:
     web01:
         container_name: web01
-        build: demo-server
-        image: demo-server
+        image: neofonie/demo-server
 
     web02:
         container_name: web02
-        build: demo-server
-        image: demo-server
+        image: neofonie/demo-server
 
     loadbalancer:
         container_name: loadbalancer
-        build: demo-loadbalancer
-        image: demo-loadbalancer
+        image: neofonie/demo-loadbalancer
         links:
         - web01:backend01
         - web02:backend02
