@@ -8,6 +8,7 @@ RUN apt-get update &&\
 
 ADD material/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 ADD material/start.sh /
+RUN ln -s /start.sh /usr/local/sbin/reload
 
 ENTRYPOINT ["/start.sh"]
 
