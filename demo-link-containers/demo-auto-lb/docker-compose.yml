@@ -5,6 +5,10 @@ services:
 
     loadbalancer:
         image: neofonie/demo-auto-lb
+        depends_on:
+            - web
+        environment:
+            - COMPOSE_PROJECT=demoautolb
         links:
             - web
         ports:
