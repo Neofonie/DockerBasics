@@ -13,3 +13,14 @@ services:
             - web
         ports:
             - 42080:8080
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
+    events:
+        image: neofonie/demo-lb-events
+        depends_on:
+            - loadbalancer
+        environment:
+            - COMPOSE_PROJECT=demoautolb
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
