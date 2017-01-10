@@ -5,6 +5,7 @@ services:
 
     loadbalancer:
         image: neofonie/demo-auto-lb
+        build: ./
         depends_on:
             - web
         environment:
@@ -17,7 +18,8 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
 
     events:
-        image: neofonie/demo-lb-events
+        image: neofonie/demo-events
+        build: demo-events
         depends_on:
             - loadbalancer
         environment:
