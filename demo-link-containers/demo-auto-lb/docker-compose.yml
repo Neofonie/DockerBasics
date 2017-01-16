@@ -10,12 +10,8 @@ services:
             - web
         environment:
             - COMPOSE_PROJECT=demoautolb
-        links:
-            - web
         ports:
             - 42080:8080
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
 
     events:
         image: neofonie/demo-events
