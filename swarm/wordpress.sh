@@ -1,8 +1,7 @@
 #!/bin/bash
 
-internal_network=internal
-external_network=external
-mysql_root_pw=n30n30
+internal_network=wordpress
+mysql_root_pw=ichsinge1234
 
 docker network ls -f name=$internal_network | grep $internal_network || \
 docker network create -d overlay $internal_network
@@ -19,6 +18,4 @@ docker service create           \
     --name wordpress        \
     --network $internal_network     \
     --env WORDPRESS_DB_PASSWORD=$mysql_root_pw \
-    --mount type=bind,source=/mnt/wordpress,destination=/var/www/html \
     wordpress
-
