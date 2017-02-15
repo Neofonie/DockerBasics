@@ -13,4 +13,10 @@ COPY httpd.conf /etc/apache2/httpd.conf
 COPY index.html /var/www/localhost/htdocs/
 COPY entrypoint.sh /
 
+ADD root /
+
+USER apache2
+
+HEALTHCHECK --interval=5m --timeout=3s CMD curl -f http://localhost/ || exit 1
+
 ENTRYPOINT /entrypoint.sh
