@@ -14,12 +14,10 @@ docker service create           \
     mariadb
 
 docker service ls -f name=wordpress | grep wordpress || \
-mkdir -p /mnt/glusterfs/wordpress && \
 docker service create           \
     --name wordpress        \
     --network $internal_network     \
     --env WORDPRESS_DB_PASSWORD=$mysql_root_pw \
     --publish 80:80 \
     wordpress
-#    --mount type=bind,source=/mnt/glusterfs/wordpress,destination=/var/www/html \
 
