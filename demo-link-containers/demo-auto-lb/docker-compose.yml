@@ -1,10 +1,10 @@
 version: '2'
 services:
     web:
-        image: neofonie/demo-server
+        image: neoworkshop/demo-server
 
     loadbalancer:
-        image: neofonie/demo-auto-lb
+        image: neoworkshop/demo-auto-lb
         build: ./
         depends_on:
             - web
@@ -14,7 +14,7 @@ services:
             - 42080:8080
 
     events:
-        image: neofonie/demo-events
+        image: neoworkshop/demo-events
         build: demo-events
         depends_on:
             - loadbalancer
