@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 IFS=''
 
-readonly registry='neofoniegmbh'
+readonly registry='neoworkshop'
 readonly buildpath='.'
 readonly dockerfile=${buildpath}/Dockerfile
 readonly image='hello-world'
