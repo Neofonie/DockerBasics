@@ -1,22 +1,19 @@
-version: '3'
+version: '3.3'
 
 services:
 
     wordpress:
         image: wordpress
-        networks:
-            - wordpress
         environment:
             - WORDPRESS_DB_PASSWORD=ichsinge1234
+            - MYENV=${MYENV}
         volumes:
             - /etc/localtime:/etc/localtime:ro
+        ports:
+            - "80:80"
 
     mysql:
         image: mariadb
-        networks:
-            - wordpress
         environment:
             - MYSQL_ROOT_PASSWORD=ichsinge1234
         
-networks:
-    wordpress:

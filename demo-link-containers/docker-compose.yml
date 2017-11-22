@@ -3,7 +3,7 @@ services:
     web01:
         container_name: web01
         image: neoworkshop/demo-server
-        build: demo-server
+#        build: demo-server
 
     web02:
         container_name: web02
@@ -12,7 +12,7 @@ services:
     loadbalancer:
         container_name: loadbalancer
         image: neoworkshop/demo-loadbalancer
-        build: demo-loadbalancer
+#        build: demo-loadbalancer
         links:
             - web01:backend01
             - web02:backend02
