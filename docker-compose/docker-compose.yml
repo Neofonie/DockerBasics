@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+
+  apache01:
+    image: httpd
+
+  apache02:
+    image: httpd
+

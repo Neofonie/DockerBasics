@@ -1,0 +1,9 @@
+
+arbeiten mit yml Dateien. Editor Einstellungen:
+
+z.B.: 
+editor vim, .vimrc:
+  -> :set tabstop=2 shiftwidth=2 expandtab
+     syntax on
+
+

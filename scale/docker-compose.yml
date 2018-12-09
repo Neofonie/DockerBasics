@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  apache:
+    image: httpd
+    labels:
+        - "traefik.enable=true"
+        - "traefik.backend=apache"
+        - "traefik.port=80"
+        - "traefik.frontend.rule=Host: apache"
+
+  lb:
+    image: traefik
+    command: --api --docker 
+    ports:
+      - "8080:80"
+      - "8042:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet:  10.253.0.0/16

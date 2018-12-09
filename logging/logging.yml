@@ -1,0 +1,47 @@
+version: '3.4'
+services:
+
+  fluentd:
+    image: myfluentd
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+      - /var/run/docker.sock:/var/run/docker.sock
+      - fluentd:/fluentd/log
+      - /data/workshop/logging/fluentd/etc:/fluentd/etc
+    deploy:
+      mode: global
+      restart_policy:
+        condition: any
+    stop_grace_period: 1m
+    environment:
+      - FLUENTD_CONF=fluentd.conf
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.2
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    deploy:
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 2G
+    stop_grace_period: 2m
+    environment:
+      - "network.bind_host=0.0.0.0"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.5.2
+    ports:
+      - "5601:5601"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+volumes:
+  elasticsearch:
+  fluentd:
+

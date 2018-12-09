@@ -6,7 +6,6 @@ services:
         image: wordpress
         environment:
             - WORDPRESS_DB_PASSWORD=ichsinge1234
-            - MYENV=${MYENV}
         volumes:
             - /etc/localtime:/etc/localtime:ro
         ports:
