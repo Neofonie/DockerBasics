@@ -4,7 +4,23 @@ services:
 
   apache01:
     image: httpd
+    build: httpd
+    networks:
+      dmz:
 
   apache02:
     image: httpd
+    networks:
+      dmz:
+      intern:
+        aliases:
+          - www.ebay.de
 
+  apache03:
+    image: httpd
+    networks:
+      intern:
+
+networks:
+  intern:
+  dmz:

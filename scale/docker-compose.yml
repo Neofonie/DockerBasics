@@ -12,7 +12,7 @@ services:
 
   lb:
     image: traefik
-    command: --api --docker 
+    command: --api --docker --docker.exposedbydefault=false
     ports:
       - "8080:80"
       - "8042:8080"

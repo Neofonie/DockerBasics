@@ -8,7 +8,7 @@ services:
       - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /var/run/docker.sock:/var/run/docker.sock
       - fluentd:/fluentd/log
-      - /data/workshop/logging/fluentd/etc:/fluentd/etc
+      - ./fluentd/etc:/fluentd/etc
     deploy:
       mode: global
       restart_policy:

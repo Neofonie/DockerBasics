@@ -1,10 +1,6 @@
-FROM httpd
+FROM mysql
 
-RUN apt-get -qq update && \
-    apt-get install -yq procps wget dnsutils && \
-    rm -rf /var/lib/apt/lists/*
+ADD my-entrypoint.sh /
 
-ADD entrypoint.sh /
-
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/my-entrypoint.sh" ]
 

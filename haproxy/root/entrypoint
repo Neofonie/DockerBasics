@@ -1,0 +1,103 @@
+#!/bin/bash
+
+
+tmp_dir=/tmp
+haproxy_dyn=$tmp_dir/haproxy.dyn
+haproxy_bak=$tmp_dir/haproxy.bak
+haproxy_cfg=/usr/local/etc/haproxy/haproxy.cfg
+
+log() {
+    echo $(date)" - [$$] "$@ | tee -a /proc/1/fd/1
+}
+
+function errexit() {
+  local err=$?
+  set +o xtrace
+  local code="${1:-1}"
+  echo "Error in ${BASH_SOURCE[1]}:${BASH_LINENO[0]}. '${BASH_COMMAND}' exited with status $err"
+  # Print out the stack trace described by $function_stack  
+  if [ ${#FUNCNAME[@]} -gt 2 ]
+  then
+    echo "Call tree:"
+    for ((i=1;i<${#FUNCNAME[@]}-1;i++))
+    do
+      echo " $i: ${BASH_SOURCE[$i+1]}:${BASH_LINENO[$i]} ${FUNCNAME[$i]}(...)"
+    done
+  fi
+  echo "Exiting with status ${code}"
+  exit "${code}"
+}
+
+get_backend_ips_for_service() {
+    my_service=$1
+    getent hosts tasks.$my_service | awk '{print $1}' | sort
+}
+
+generate_backend_server_config() {
+    my_service=$1
+    my_port=$2
+    n=0
+    backup=""
+    for backend_ip in $(get_backend_ips_for_service $my_service); do
+        let n=$n+1
+        test $n -gt 1 && backup="backup"
+        echo "    server ${my_service}.$n ${backend_ip}:$my_port check $backup"
+    done
+}
+
+# trap ERR to provide an error handler whenever a command exits nonzero
+#  this is a more verbose version of set -o errexit
+trap 'errexit' ERR
+# setting errtrace allows our ERR trap handler to be propagated to functions,
+#  expansions and subshells
+set -o errtrace
+
+start_or_reload_haproxy() {
+    pid=$( pidof haproxy-systemd-wrapper || echo 0 )
+    if [ $pid -gt 1 ]; then
+        log "  reloading haproxy gracefully."
+        kill -1 $pid > /dev/null 2>&1 || log "ERROR - haproxy reload failed."
+    else
+        log "  starting haproxy for the first time ..."
+        exec /usr/local/sbin/haproxy-systemd-wrapper -p /run/haproxy.pid -f $haproxy_dyn &
+    fi
+}
+
+reconfigure_loop() {
+
+    while true; do
+
+    ips=$(get_backend_ips_for_service $SERVICE_NAME)
+
+    if [[ "$ips" != "$last_ips" ]]; then
+
+        # backup old config and start with a clean template (haproxy.cfg)
+        #
+        test -f $haproxy_dyn && cp $haproxy_dyn $haproxy_bak
+        cp $haproxy_cfg $haproxy_dyn
+
+        # append backend servers to default config 
+        #       
+        generate_backend_server_config $SERVICE_NAME $SERVICE_PORT >> $haproxy_dyn 
+
+        # check new config 
+        haproxy -c -f $haproxy_dyn >/dev/null 2>&1 && \
+            { cp $haproxy_dyn $haproxy_bak; } || \
+            { log "ERROR - reconfigure failed. keeping old config."; haproxy -c -f $haproxy_dyn; \
+            cp $haproxy_dyn ${haproxy_dyn}.error; cp $haproxy_bak $haproxy_dyn; exit 1; }
+
+        # restart haproxy
+        start_or_reload_haproxy
+    fi
+    last_ips=$ips
+    sleep 10
+
+    done 
+}
+
+test -z "$SERVICE_NAME" && \
+    { log ERROR environment variable SERVICE_NAME not defined.; exit 1; }
+test -z "$SERVICE_PORT" && \
+    { log ERROR environment variable SERVICE_PORT not defined.; exit 1; }
+
+reconfigure_loop
