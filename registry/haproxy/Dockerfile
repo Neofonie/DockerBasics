@@ -1,0 +1,5 @@
+FROM haproxy
+
+ADD root /
+
+
