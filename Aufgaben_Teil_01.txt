@@ -1,0 +1,31 @@
+
+1) Lade das Docker Image für den nginx Webserver auf deine lokale Umgebung ohne einen Container davon zu starten.
+
+2) Starte einen nginx Webserver und versuche den Port 80 von aussen zugänglich zu machen.
+
+3) Starte den httpd Webserver (Apache) und rufe die Standard Startseite im Browser auf. Versuche die Logging Information zu diesem HTTP-Request mit dem Befehl "docker logs -f"  wiederzufinden.
+
+4) Starte einen Container vom httpd Image, erzwinge dabei eine interaktive Shell ohne den Apache Prozess selbst zu starten.
+
+4b) Erzeuge eine Datei im laufenden Container und speicher den aktuellen Container Zustand mit "docker commit" als Image ab.
+4c) Gib dem neuen Image einen Namen und starte den Apache Webserver, was passiert hier ?
+
+5) Lösche alle nicht mehr benötigten Image Daten. Welche Grösse hat das /var/lib/docker/images Verzeichnis vorher und nacher.
+
+6) Erstelle aus dem mysql Standart Image ein neues Images mit nur einem Layer.
+
+7) Erstelle ein tar-Archiv aus allen Dateien, die im standard elasticsearch Image enthalten sind.
+
+8) Verwende das Standard httpd Image und modifiziere den Entrypoint so, dass /bin/bash ausgeführt wird.
+
+8b) Starte das Image mit docker run so, dass der Apache Webserver läuft. ( Befehlszeile aus dem ursprünglichen Entrypoint).
+
+9) Starte eine MySQL Datenbank ohne zusätzliche Volume Information. Lege eine leere Datenbank im laufenden Container an.
+
+9b) Stoppe den Container und kopiere das MySQL Datenverzeichnis in ein leeres Verzeichnis auf deinem Host. Starte nun einen neuen Container und versuche die in 9) angelegte Datenbank wiederzufinden.
+
+10) Starte eine Docker Registry auf deinem Host.
+
+10b) Lade das rabbitmq Image aus der öffentlichen Docker Registry und "pushe" es in die eigene Registry.
+
+
