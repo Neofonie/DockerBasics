@@ -1,15 +1,38 @@
-version: '2'
+version: '3'
 
 services:
 
-       registry:
-            image: registry
-            ports:
-                - "5000:5000" 
-       ui:
-            image: konradkleine/docker-registry-frontend
-            environment:
-                - ENV_DOCKER_REGISTRY_HOST=registry
-                - ENV_DOCKER_REGISTRY_PORT=5000
-            ports:
-                - "8083:80" 
+  registry:
+    image: registry
+    ports:
+      - "5000:5000" 
+    networks:
+      default:
+        aliases:
+          - registry.workshop.lab
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - registry:/var/lib/registry
+
+  ui:
+    image: konradkleine/docker-registry-frontend:v2
+    environment:
+      - ENV_DOCKER_REGISTRY_HOST=registry.workshop.lab
+      - ENV_DOCKER_REGISTRY_PORT=5000
+    ports:
+      - "8080:80"
+
+  haproxy:
+    image: 127.0.0.1:5000/haproxy
+    ports:
+      - "443:443"
+    
+    deploy:
+      placement:
+        constraints:
+          - node.labels.haproxy == true
+
+volumes:
+  registry:
+
+
