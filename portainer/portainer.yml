@@ -1,10 +1,13 @@
 version: '3.4'
 
+# stackname ist portainer !
+
 services:
 
   portainer:
     image: portainer/portainer
-    command: --host tcp://tasks.portainer_agent:9001 --tlsskipverify --admin-password "please_generate_hash"
+    # password hash generiert mit: docker run --rm httpd:2.4-alpine htpasswd -nbB admin 'geheim' | cut -d ":" -f 2
+    command: --host tcp://tasks.portainer_agent:9001 --tlsskipverify --admin-password "$$2y$$05$$GJG/AENcZjB0Ntwo.6b3xuaKDhjbImMP.0KAFFbXI3o2Dk5BP3xKi"
     volumes:
       - portainer:/data
     networks:
