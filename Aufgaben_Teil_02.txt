@@ -1,0 +1,9 @@
+1) Wo können IP Kreise für die Vergabe von IP Adressen der Container definiert werden ?
+
+2) Starte das Loadbalancing Beispiel im Ordner "scale" mit docker-compose. Verwende dazu die docker-compose.yml Datei.
+2b) Definiere ein eigenes Netzwerk mit selbstgewähltem IP Kreis für das Beispiel. Das Netzwerk soll dabei mit dem Befehl "docker network create" angelegt werden. Im docker-compose.yml soll es als "external" mit eingebunden werden.
+
+3) Starte das Beispiel swarm/wordpress.yml mit docker-compose. Dabei sollen alle Log-Ausgaben direkt in der Konsole sichtbar sein (Foreground). Mit Ctrl-C sollte sich das docker-compose Projekt dann beenden lassen.
+3b) Starte das Beispiel nochmal im "Background". Warum kann der Wordpress-Container überhaupt die Datenbank erreichen, dort ist doch kein Hostname für die DB angegeben ? 
+
+
