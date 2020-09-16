@@ -1,7 +1,7 @@
 FROM httpd
 
 RUN apt-get -qq update && \
-    apt-get install -yq procps wget dnsutils && \
+    apt-get install -yq vim inetutils-ping procps wget dnsutils && \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8080

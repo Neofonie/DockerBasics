@@ -3,6 +3,7 @@ services:
 
   fluentd:
     image: myfluentd
+    build: fluentd
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers
       - /var/lib/docker/volumes:/var/lib/docker/volumes
