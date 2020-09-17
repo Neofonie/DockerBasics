@@ -1,0 +1,67 @@
+Security
+
+  - Image Scanner z.B. Harbour
+  - User im Container muss nicht Root sein
+  - nur die Libs und Tools ins Image installieren, die gebraucht werden
+  - Image Builds und Updates automatisieren
+  - Docker Host (Wirt) ist nur Docker Host
+    - keine weiteren Services ausserhalb von Docker betreiben
+    - iptables und cgroups nur von Docker gemanaged
+  
+Betrieb
+
+  - niemals die Platte vollschreiben
+  - wenn Docker bei 100% Plattenbelegung angekommen ist hilft:
+    - alles löschen in /var/lib/docker ausser Named-Volumes (vorher verschieben)
+    - alles löschen in /var/lib/containerd 
+    - mit "docker-compose up -d" alle neu initialisieren
+
+  - Container startet nicht
+    - docker logs <Container ID>
+      - keine Log Ausgabe
+        - vom Image einen neuen Container starten mit --entrypoint /bin/bash 
+          (eventuell /bin/sh wenn keine bash installiert ist)
+          und den ENTRYPOINT manuell ausführen (kann auch nur CMD definiert sein, dann CMD ausführen)
+    - docker ps -a --no-trunc
+      - in der Ausgabe den Container herraussuchen oder mit grep filtern
+    - 99%
+      - registry Zugriff nicht möglich
+        - permissions
+        - offline
+      - Image existiert nicht
+      - Resourcen stehen nicht zur Verfügung
+        - Speicheranforderung zu hoch (Java xmx=16GB)
+        - keine IP Adresse mehr frei
+
+  - sonstige Fehler
+    - Container läuft, tut aber nicht das was er soll
+      - Container mit docker stop/start durchstarten
+      - neuen Container starten (docker rm -f <Container ID>, docker-compose up -d)
+    - Container können nicht miteinander sprechen
+      - Container sind nicht im gleichen Docker Network
+      - Die verwendeten Hostnamen (DB_HOST=mysql) stimmen nicht mit den docker-compose Servicenamen überein
+      
+  - Wartung / Monitoring
+    - Resourcenverbrauch monitoren
+    - Docker Aufräumarbeiten automatisch ausführen lassen
+      - persistente Volumes als Verzeichnis Mapping konfigurieren ( -v /data/mysql:/var/lib/mysql )
+    - Resourcen begrenzen wenn die Gefahr besteht, dass ein Service den Speicher oder die CPUs aufisst.
+
+Anforderung an die Entwicklung
+
+  - Container müssen jederzeit neu initialisert werden können
+  - nicht erfüllte Abhängigkeiten zu anderen Services sollen entweder im ENTRYPOINT oder per HEALTHCHECK 
+    dazu führen, dass der Container neu gestartet wird
+  
+Architektur
+
+  - alles automatisieren
+  - DNS Namen für Services verwenden, nicht den Hostnamen des Docker Wirts
+
+
+Image aus Dockerhub holen und in Neofonie Registry hochladen
+Wann sind zwei Images gleich
+Kann man einen Container "updaten" und ein neueres Image verwenden
+Wie macht man ein Image Update mit docker-compose
+
+
