@@ -2,7 +2,7 @@ version: '3.4'
 services:
 
   fluentd:
-    image: myfluentd
+    image: registry.neofonie.de/workshop/fluentd
     build: fluentd
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers
